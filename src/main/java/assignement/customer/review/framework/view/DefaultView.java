@@ -10,8 +10,8 @@ import javax.annotation.PostConstruct;
 public class DefaultView extends AbstractView {
 
     @PostConstruct
-    protected void init() {
-        addComponent(new Label());
+    protected void initialize() {
+        addComponent(new Label(""));
     }
 
 }

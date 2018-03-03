@@ -1,6 +1,6 @@
 package assignement.customer.review.application.review;
 
-import assignement.customer.review.framework.view.AbstractView;
+import assignement.customer.review.framework.view.AbstractCrudView;
 import com.vaadin.spring.annotation.SpringView;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -10,7 +10,7 @@ import javax.annotation.PostConstruct;
  * Created by amazimpaka on 2018-03-02
  */
 @SpringView(name = ReviewView.VIEW_NAME)
-public class ReviewView extends AbstractView<Review> {
+public class ReviewView extends AbstractCrudView<Review> {
 
 
     public static final String VIEW_NAME = "Review" ;

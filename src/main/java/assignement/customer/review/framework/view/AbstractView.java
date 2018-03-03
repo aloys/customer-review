@@ -1,104 +1,42 @@
 package assignement.customer.review.framework.view;
 
-import assignement.customer.review.framework.model.Model;
-import assignement.customer.review.framework.service.Service;
-import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
-import com.vaadin.ui.*;
-import com.vaadin.ui.themes.ValoTheme;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.annotation.PostConstruct;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.Collection;
-import java.util.Optional;
+import com.vaadin.server.Page;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.VerticalLayout;
 
 /**
- * Created by amazimpaka on 2018-03-02
+ * Created by amazimpaka on 2018-03-03
  */
-public abstract class AbstractView<E extends Model> extends VerticalLayout implements View {
+public class AbstractView  extends VerticalLayout implements View {
 
-    protected transient final Logger logger = LoggerFactory.getLogger(getClass());
+    private static final String INFO_TITLE = "Information";
 
-    protected Service<E> service;
+    private static final String WARNING_TITLE = "Warning";
 
-    protected Grid grid;
+    private static final String ERROR_TITLE = "Error";
+
+    private final boolean htmlContentAllowed = true;
 
 
-    @PostConstruct
-    public void initialize() {
-        final Optional<Class<?>> entityClass = resolveGeneric(0);
-        if(!entityClass.isPresent()){
-            throw new ViewCreationException(String.format("Cannot resolve entity class of view: %s",getClass().getName()));
-        }
-
-        grid = new Grid(entityClass.get());
-        grid.setSizeFull();
-        grid.setStyleName(ValoTheme.TABLE_SMALL);
-
-        final HorizontalLayout toolbar = new HorizontalLayout();
-        toolbar.addComponent(createButton("Refresh",VaadinIcons.REFRESH,(event) -> refresh()));
-        toolbar.addComponent(createButton("Add",VaadinIcons.PLUS_CIRCLE,null));
-        toolbar.addComponent(createButton("Edit",VaadinIcons.EDIT,null));
-        toolbar.addComponent(createButton("Delete",VaadinIcons.MINUS_CIRCLE,null));
-
-        addComponent(toolbar);
-        addComponent(grid);
-        setExpandRatio(grid, 1);
-
-        refresh();
+    public void showInfoMessage(String message) {
+        show(INFO_TITLE, message, Notification.Type.HUMANIZED_MESSAGE);
     }
 
-    protected void refresh(){
-        logger.debug("Executing table refresh");
-        grid.setItems(service.findlAll());
+    public void showTrayMessage(String message) {
+        show(INFO_TITLE, message, Notification.Type.TRAY_NOTIFICATION);
+    }
+
+    public void showWarnMessage(String message) {
+        show(WARNING_TITLE, message, Notification.Type.WARNING_MESSAGE);
+    }
+
+    public void showErrorMessage(String message) {
+        show(ERROR_TITLE, message, Notification.Type.ERROR_MESSAGE);
     }
 
 
-    public void setItems(Collection<E> items) {
-        grid.setItems(items);
+    private void show(String caption, String description, Notification.Type type) {
+        new Notification(caption, description, type,htmlContentAllowed).show(Page.getCurrent());
     }
-
-
-    public void setService(Service<E> service) {
-        this.service = service;
-    }
-
-    private static Button createButton(String caption, VaadinIcons icon, Button.ClickListener clickListener){
-        final Button button = new Button();
-
-        if(caption != null){
-            button.setCaption(caption);
-        }
-
-        if(icon != null){
-            button.setIcon(icon);
-            button.setDescription(caption);
-            button.setStyleName(ValoTheme.BUTTON_ICON_ONLY);
-        }
-
-        if(clickListener != null){
-            button.addClickListener(clickListener);
-        }
-        return button;
-    }
-
-
-    private Optional<Class<?>> resolveGeneric(int index) {
-        final ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
-        if (genericSuperclass != null) {
-            final Type[] arguments = genericSuperclass.getActualTypeArguments();
-
-            if (arguments != null && arguments.length >= index + 1) {
-                final Type type = arguments[index];
-                if (type.getClass() == Class.class) {
-                    return Optional.ofNullable((Class<?>) type);
-                }
-            }
-        }
-        return Optional.empty();
-    }
-
 }
