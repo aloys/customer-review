@@ -1,0 +1,26 @@
+package assignement.customer.review.framework.util;
+
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.Optional;
+
+/**
+ * Created by amazimpaka on 2018-03-03
+ */
+public final class ReflectionUtil {
+
+    public static Optional<Class<?>> resolveGeneric(Class<?> analyzedClass, int index) {
+        final ParameterizedType genericSuperclass = (ParameterizedType) analyzedClass.getGenericSuperclass();
+        if (genericSuperclass != null) {
+            final Type[] arguments = genericSuperclass.getActualTypeArguments();
+
+            if (arguments != null && arguments.length >= index + 1) {
+                final Type type = arguments[index];
+                if (type.getClass() == Class.class) {
+                    return Optional.ofNullable((Class<?>) type);
+                }
+            }
+        }
+        return Optional.empty();
+    }
+}

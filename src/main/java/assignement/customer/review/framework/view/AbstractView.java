@@ -1,9 +1,12 @@
 package assignement.customer.review.framework.view;
 
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.server.Page;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
 
 /**
  * Created by amazimpaka on 2018-03-03
@@ -39,4 +42,25 @@ public class AbstractView  extends VerticalLayout implements View {
     private void show(String caption, String description, Notification.Type type) {
         new Notification(caption, description, type,htmlContentAllowed).show(Page.getCurrent());
     }
+
+
+    protected static Button createButton(String caption, VaadinIcons icon, Button.ClickListener clickListener){
+        final Button button = new Button();
+
+        if(caption != null){
+            button.setCaption(caption);
+        }
+
+        if(icon != null){
+            button.setIcon(icon);
+            button.setDescription(caption);
+            button.setStyleName(ValoTheme.BUTTON_ICON_ONLY);
+        }
+
+        if(clickListener != null){
+            button.addClickListener(clickListener);
+        }
+        return button;
+    }
+
 }
