@@ -19,6 +19,8 @@ public class ReviewService extends AbstractService {
     @PostConstruct
     public void initialize(){
         setRepository(reviewRepository);
+        enableDatanItializion = false;
+        super.initialize();
     }
 
 

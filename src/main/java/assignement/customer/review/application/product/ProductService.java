@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Created by amazimpaka on 2018-03-02
@@ -19,7 +21,14 @@ public class ProductService extends AbstractService {
     @PostConstruct
     public void initialize(){
         setRepository(productRepository);
+        super.initialize();
     }
 
-
+    @Override
+    protected Optional newInstance(int index) {
+        Product product = new Product();
+        product.setName("Product-"+index);
+        product.setCode(UUID.randomUUID().toString());
+        return Optional.of(product);
+    }
 }
