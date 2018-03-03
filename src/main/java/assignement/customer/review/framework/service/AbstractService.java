@@ -25,7 +25,7 @@ public abstract class AbstractService<E extends Model> implements Service<E>{
     @Value("${application.initialize.test.data:true}")
     protected boolean enableDatanItializion;
 
-    @Value("${application.test.data.max.size:10}")
+    @Value("${application.test.data.max.size:5}")
     protected int maximumTestData;
 
     private static final AtomicBoolean initialized = new AtomicBoolean();
