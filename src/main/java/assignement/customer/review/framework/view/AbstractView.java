@@ -6,6 +6,8 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import java.lang.reflect.ParameterizedType;
@@ -17,6 +19,8 @@ import java.util.Optional;
  * Created by amazimpaka on 2018-03-02
  */
 public abstract class AbstractView<E extends Model> extends VerticalLayout implements View {
+
+    protected transient final Logger logger = LoggerFactory.getLogger(getClass());
 
     protected Service<E> service;
 
@@ -32,11 +36,10 @@ public abstract class AbstractView<E extends Model> extends VerticalLayout imple
 
         grid = new Grid(entityClass.get());
         grid.setSizeFull();
-        grid.setItems(service.findlAll());
         grid.setStyleName(ValoTheme.TABLE_SMALL);
 
         final HorizontalLayout toolbar = new HorizontalLayout();
-        toolbar.addComponent(createButton("Refresh",VaadinIcons.REFRESH,null));
+        toolbar.addComponent(createButton("Refresh",VaadinIcons.REFRESH,(event) -> refresh()));
         toolbar.addComponent(createButton("Add",VaadinIcons.PLUS_CIRCLE,null));
         toolbar.addComponent(createButton("Edit",VaadinIcons.EDIT,null));
         toolbar.addComponent(createButton("Delete",VaadinIcons.MINUS_CIRCLE,null));
@@ -44,6 +47,13 @@ public abstract class AbstractView<E extends Model> extends VerticalLayout imple
         addComponent(toolbar);
         addComponent(grid);
         setExpandRatio(grid, 1);
+
+        refresh();
+    }
+
+    protected void refresh(){
+        logger.debug("Executing table refresh");
+        grid.setItems(service.findlAll());
     }
 
 
