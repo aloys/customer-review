@@ -34,6 +34,7 @@ public class UserView  extends AbstractCrudView<User> {
 
         TextField idField = new TextField("Id");
         idField.setReadOnly(true);
+        idField.setWidth(100, Unit.PIXELS);
         bindField(idField,"id",String.class,Long.TYPE);
         components.add(idField);
 

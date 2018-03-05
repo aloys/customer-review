@@ -1,10 +1,10 @@
 package assignement.customer.review.application.user;
 
+import assignement.customer.review.application.review.Review;
 import assignement.customer.review.framework.model.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Collection;
 
 /**
  * Created by amazimpaka on 2018-03-02
@@ -17,6 +17,9 @@ public class User implements Model {
     private long id;
 
     private String username;
+
+    @OneToMany(cascade = {CascadeType.REMOVE,CascadeType.PERSIST,CascadeType.MERGE})
+    private Collection<Review> reviews;
 
     @Override
     public long getId() {
@@ -34,5 +37,13 @@ public class User implements Model {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Collection<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Collection<Review> reviews) {
+        this.reviews = reviews;
     }
 }

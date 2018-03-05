@@ -1,17 +1,25 @@
 package assignement.customer.review.framework.view;
 
+import assignement.customer.review.framework.util.ReflectionUtil;
+import com.vaadin.data.*;
+import com.vaadin.data.validator.BeanValidator;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.server.Page;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.server.Setter;
+import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
+
+import javax.annotation.PostConstruct;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by amazimpaka on 2018-03-03
  */
-public class AbstractView  extends VerticalLayout implements View {
+public class AbstractView<E>  extends VerticalLayout implements View {
 
     private static final String INFO_TITLE = "Information";
 
@@ -21,6 +29,65 @@ public class AbstractView  extends VerticalLayout implements View {
 
     private final boolean htmlContentAllowed = true;
 
+    private static final Map<Class<?>, PropertySet<?>> PROPERTIES_SET_CACHE = new ConcurrentHashMap<>();
+
+    private static final Map<Class<?>, Binder<?>> BINDERS_CACHE = new ConcurrentHashMap<>();
+
+    protected Class<E> entityClass;
+
+    public AbstractView() {
+        super();
+        //setSizeFull();
+    }
+
+    @PostConstruct
+    public void initialize() {
+        final Optional<Class<?>> genericType = ReflectionUtil.resolveGeneric(getClass(), 0);
+        if (!genericType.isPresent()) {
+            showErrorMessage(String.format("Cannot resolve entity class of view: %s", getClass().getName()));
+        }
+        entityClass = (Class<E>) genericType.get();
+    }
+
+
+
+    protected <FV, BV> void bindField(HasValue<FV> field,
+                                      String propertyName,
+                                      Class<FV> fieldvalueClass,
+                                      Class<BV> beanValueClass) {
+        if (propertyName != null) {
+            final PropertySet<E> propertySet = getBeanPropertySet();
+            final Optional<PropertyDefinition<E, ?>> wrapper = propertySet.getProperty(propertyName);
+            if (wrapper.isPresent()) {
+
+                final PropertyDefinition<E, BV> propertyDefinition = (PropertyDefinition<E, BV>) wrapper.get();
+                final Optional<Converter<?, BV>> optionalConverter = ConverterCache.getConverter(propertyDefinition.getType());
+
+                if (optionalConverter.isPresent()) {
+                    final Converter<FV, BV> converter = ((Converter<FV, BV>) optionalConverter.get());
+
+                    Binder.BindingBuilder<E, BV> bindingBuilder = getBinder()
+                            .forField(field)
+                            .withValidator(new BeanValidator(entityClass, propertyName))
+                            .withConverter(converter);
+
+                    final ValueProvider<E, BV> getter = propertyDefinition.getGetter();
+                    final Optional<Setter<E, BV>> setter = propertyDefinition.getSetter();
+                    bindingBuilder.bind(getter, setter.get());
+
+                }else if (fieldvalueClass == beanValueClass){
+                    //No converter is needed
+                    Binder.BindingBuilder<E, FV> bindingBuilder = getBinder()
+                            .forField(field)
+                            .withValidator(new BeanValidator(entityClass, propertyName));
+
+                    final ValueProvider<E, BV> getter = propertyDefinition.getGetter();
+                    final Optional<Setter<E, BV>> setter = propertyDefinition.getSetter();
+                    bindingBuilder.bind((ValueProvider<E, FV>) getter, (Setter<E, FV>)setter.get());
+                }
+            }
+        }
+    }
 
     public void showInfoMessage(String message) {
         show(INFO_TITLE, message, Notification.Type.HUMANIZED_MESSAGE);
@@ -61,6 +128,16 @@ public class AbstractView  extends VerticalLayout implements View {
             button.addClickListener(clickListener);
         }
         return button;
+    }
+
+    protected PropertySet<E> getBeanPropertySet() {
+        return (PropertySet<E>) PROPERTIES_SET_CACHE.computeIfAbsent(entityClass,
+                (key) -> BeanPropertySet.get(key));
+    }
+
+    protected Binder<E> getBinder() {
+        return (Binder<E>) BINDERS_CACHE.computeIfAbsent(entityClass,
+                (key) -> new BeanValidationBinder<>(key));
     }
 
 }

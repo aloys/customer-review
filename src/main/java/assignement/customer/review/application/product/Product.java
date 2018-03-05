@@ -1,10 +1,10 @@
 package assignement.customer.review.application.product;
 
+import assignement.customer.review.application.review.Review;
 import assignement.customer.review.framework.model.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Collection;
 
 /**
  * Created by amazimpaka on 2018-03-02
@@ -19,6 +19,9 @@ public class Product implements Model {
     private String name;
 
     private String code;
+
+    @OneToMany(cascade = {CascadeType.REMOVE,CascadeType.PERSIST,CascadeType.MERGE})
+    private Collection<Review> reviews;
 
     @Override
     public long getId() {
@@ -44,5 +47,13 @@ public class Product implements Model {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public Collection<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Collection<Review> reviews) {
+        this.reviews = reviews;
     }
 }
