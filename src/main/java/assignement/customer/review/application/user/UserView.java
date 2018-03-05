@@ -3,13 +3,13 @@ package assignement.customer.review.application.user;
 
 import assignement.customer.review.framework.view.AbstractCrudView;
 import com.vaadin.spring.annotation.SpringView;
-import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.TextField;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
-import java.text.Normalizer;
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by amazimpaka on 2018-03-02
@@ -29,16 +29,20 @@ public class UserView  extends AbstractCrudView<User> {
     }
 
     @Override
-    protected Optional<FormLayout> createForm() {
-        final FormLayout form = new FormLayout();
+    protected List<Component> createFormFields(){
+        final List<Component> components = new ArrayList<>();
 
-        TextField idField = new TextField();
+        TextField idField = new TextField("Id");
         idField.setReadOnly(true);
-        form.addComponent(idField);
+        bindField(idField,"id",String.class,Long.TYPE);
+        components.add(idField);
 
-        TextField  usernameField = new TextField();
-        form.addComponent(usernameField);
+        TextField  usernameField = new TextField("Username");
+        bindField(usernameField,"username",String.class,String.class);
+        components.add(usernameField);
 
-        return Optional.of(form);
+        return components;
     }
+
+
 }

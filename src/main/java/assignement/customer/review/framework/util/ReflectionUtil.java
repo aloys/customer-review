@@ -9,6 +9,14 @@ import java.util.Optional;
  */
 public final class ReflectionUtil {
 
+    public static <T> T newInstance(Class<T> type) {
+        try {
+            return type.newInstance();
+        }   catch (IllegalAccessException  | InstantiationException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static Optional<Class<?>> resolveGeneric(Class<?> analyzedClass, int index) {
         final ParameterizedType genericSuperclass = (ParameterizedType) analyzedClass.getGenericSuperclass();
         if (genericSuperclass != null) {
