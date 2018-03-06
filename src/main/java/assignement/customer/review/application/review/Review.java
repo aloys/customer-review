@@ -5,6 +5,7 @@ import assignement.customer.review.application.user.User;
 import assignement.customer.review.framework.model.Model;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created by amazimpaka on 2018-03-02
@@ -26,6 +27,17 @@ public class Review implements Model {
 
     private String content;
 
+    private Date createdDate;
+
+    private Date updatedDate;
+
+    @Transient
+    private  String reviewer;
+
+    @Transient
+    private  String reviewedItem;
+
+
     @Override
     public long getId() {
         return id;
@@ -42,6 +54,7 @@ public class Review implements Model {
 
     public void setUser(User user) {
         this.user = user;
+        this.reviewer = user.getUsername();
     }
 
     public Product getProduct() {
@@ -50,6 +63,7 @@ public class Review implements Model {
 
     public void setProduct(Product product) {
         this.product = product;
+        this.reviewedItem = product.getName();
     }
 
     public String getContent() {
@@ -58,5 +72,39 @@ public class Review implements Model {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getReviewer() {
+        final User user = getUser();
+        return  user != null ? user.getUsername() : reviewer;
+    }
+
+    public void setReviewer(String reviewer) {
+        this.reviewer = reviewer;
+    }
+
+    public String getReviewedItem() {
+        final Product product = getProduct();
+        return  product != null ? product.getName() : reviewedItem;
+    }
+
+    public void setReviewedItem(String reviewedItem) {
+        this.reviewedItem = reviewedItem;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Date getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Date updatedDate) {
+        this.updatedDate = updatedDate;
     }
 }

@@ -26,17 +26,13 @@ public class UserView  extends AbstractCrudView<User> {
     public void initialize(){
         setService(userService);
         super.initialize();
+
+        grid.setColumns("id","username");
     }
 
     @Override
     protected List<Component> createFormFields(){
         final List<Component> components = new ArrayList<>();
-
-        TextField idField = new TextField("Id");
-        idField.setReadOnly(true);
-        idField.setWidth(100, Unit.PIXELS);
-        bindField(idField,"id",String.class,Long.TYPE);
-        components.add(idField);
 
         TextField  usernameField = new TextField("Username");
         bindField(usernameField,"username",String.class,String.class);

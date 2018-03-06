@@ -23,6 +23,8 @@ public class ProductView  extends AbstractCrudView<Product> {
     public void initialize(){
         setService(productService);
         super.initialize();
+
+        grid.setColumns("id","name","code");
     }
 
 

@@ -13,7 +13,7 @@ import java.util.UUID;
  * Created by amazimpaka on 2018-03-02
  */
 @Service
-public class ProductService extends AbstractService {
+public class ProductService extends AbstractService<Product> {
 
     @Autowired
     private ProductRepository productRepository;

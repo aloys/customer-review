@@ -16,8 +16,10 @@ public class Product implements Model {
     @GeneratedValue
     private long id;
 
+    @Column(unique = true,nullable = false)
     private String name;
 
+    @Column(unique = true,nullable = false)
     private String code;
 
     @OneToMany(cascade = {CascadeType.REMOVE,CascadeType.PERSIST,CascadeType.MERGE})
@@ -55,5 +57,10 @@ public class Product implements Model {
 
     public void setReviews(Collection<Review> reviews) {
         this.reviews = reviews;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

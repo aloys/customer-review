@@ -27,6 +27,7 @@ import java.util.Date;
 @SpringViewDisplay
 public class ApplicationUI extends UI implements ViewDisplay {
 
+
     public static final String MENU_STYLE_NAME = "valo-menu";
 
     private Panel springViewDisplay;
@@ -55,7 +56,7 @@ public class ApplicationUI extends UI implements ViewDisplay {
 
         HorizontalSplitPanel root = new HorizontalSplitPanel();
         root.setSizeFull();
-        root.setSplitPosition(240, Unit.PIXELS);
+        root.setSplitPosition(120, Unit.PIXELS);
         setContent(root);
 
         final CssLayout menuLayout = new CssLayout();

@@ -21,11 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class AbstractView<E>  extends VerticalLayout implements View {
 
-    private static final String INFO_TITLE = "Information";
-
-    private static final String WARNING_TITLE = "Warning";
-
-    private static final String ERROR_TITLE = "Error";
+    public  static final double GOLDEN_RATIO = (1 + Math.sqrt(5)) / 2;
 
     private final boolean htmlContentAllowed = true;
 
@@ -34,6 +30,8 @@ public class AbstractView<E>  extends VerticalLayout implements View {
     private static final Map<Class<?>, Binder<?>> BINDERS_CACHE = new ConcurrentHashMap<>();
 
     protected Class<E> entityClass;
+
+    protected static final NotificationManager NOTIFICATION_MANAGER = new NotificationManager();
 
     public AbstractView() {
         super();
@@ -44,7 +42,7 @@ public class AbstractView<E>  extends VerticalLayout implements View {
     public void initialize() {
         final Optional<Class<?>> genericType = ReflectionUtil.resolveGeneric(getClass(), 0);
         if (!genericType.isPresent()) {
-            showErrorMessage(String.format("Cannot resolve entity class of view: %s", getClass().getName()));
+            NOTIFICATION_MANAGER.showErrorMessage(String.format("Cannot resolve entity class of view: %s", getClass().getName()));
         }
         entityClass = (Class<E>) genericType.get();
     }
@@ -87,22 +85,6 @@ public class AbstractView<E>  extends VerticalLayout implements View {
                 }
             }
         }
-    }
-
-    public void showInfoMessage(String message) {
-        show(INFO_TITLE, message, Notification.Type.HUMANIZED_MESSAGE);
-    }
-
-    public void showTrayMessage(String message) {
-        show(INFO_TITLE, message, Notification.Type.TRAY_NOTIFICATION);
-    }
-
-    public void showWarnMessage(String message) {
-        show(WARNING_TITLE, message, Notification.Type.WARNING_MESSAGE);
-    }
-
-    public void showErrorMessage(String message) {
-        show(ERROR_TITLE, message, Notification.Type.ERROR_MESSAGE);
     }
 
 

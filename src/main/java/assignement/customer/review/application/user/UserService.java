@@ -11,7 +11,7 @@ import java.util.Optional;
  * Created by amazimpaka on 2018-03-02
  */
 @Service
-public class UserService extends AbstractService {
+public class UserService extends AbstractService<User> {
 
     @Autowired
     private UserRepository userRepository;

@@ -3,18 +3,17 @@ package assignement.customer.review.framework.view;
 import assignement.customer.review.framework.model.Model;
 import assignement.customer.review.framework.service.Service;
 import assignement.customer.review.framework.util.ReflectionUtil;
-import com.vaadin.data.*;
-import com.vaadin.data.validator.BeanValidator;
 import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.Setter;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by amazimpaka on 2018-03-02
@@ -33,6 +32,7 @@ public abstract class AbstractCrudView<E extends Model> extends AbstractView<E> 
 
     protected final HorizontalLayout toolbar = new HorizontalLayout();
 
+    private boolean readOnlyMode;
 
     @PostConstruct
     public void initialize() {
@@ -43,9 +43,13 @@ public abstract class AbstractCrudView<E extends Model> extends AbstractView<E> 
         grid.setStyleName(ValoTheme.TABLE_SMALL);
 
         toolbar.addComponent(createButton("Refresh", VaadinIcons.REFRESH, (event) -> refresh()));
-        toolbar.addComponent(createButton("Add", VaadinIcons.PLUS_CIRCLE, (event) -> create()));
-        toolbar.addComponent(createButton("Edit", VaadinIcons.EDIT, (event) -> update()));
-        toolbar.addComponent(createButton("Delete", VaadinIcons.MINUS_CIRCLE, (event) -> delete()));
+
+        if(!readOnlyMode){
+            toolbar.addComponent(createButton("Add", VaadinIcons.PLUS_CIRCLE, (event) -> create()));
+            toolbar.addComponent(createButton("Edit", VaadinIcons.EDIT, (event) -> update()));
+            toolbar.addComponent(createButton("Delete", VaadinIcons.MINUS_CIRCLE, (event) -> delete()));
+        }
+
 
         mainContent.setSizeFull();
 
@@ -66,7 +70,7 @@ public abstract class AbstractCrudView<E extends Model> extends AbstractView<E> 
     protected void refresh() {
         logger.debug("Executing table refresh");
 
-        if(grid != null && service != null){
+        if (grid != null && service != null) {
             grid.setItems(service.findlAll());
         }
         hideFrom();
@@ -81,7 +85,7 @@ public abstract class AbstractCrudView<E extends Model> extends AbstractView<E> 
             getBinder().setBean(instance);
             showFrom();
         } else {
-            showWarnMessage(String.format("%s is not editable", entityClass.getSimpleName()));
+            NOTIFICATION_MANAGER.showWarnMessage(String.format("%s is not editable", entityClass.getSimpleName()));
         }
     }
 
@@ -93,9 +97,9 @@ public abstract class AbstractCrudView<E extends Model> extends AbstractView<E> 
         if (selected != null) {
             service.delete(selected);
             refresh();
-            showTrayMessage(String.format("%s with id: %s was deleted", entityClass.getSimpleName(), selected.getId()));
+            NOTIFICATION_MANAGER.showTrayMessage(String.format("%s with id: %s was deleted", entityClass.getSimpleName(), selected.getId()));
         } else {
-            showWarnMessage(String.format("Please select a %s to delete", entityClass.getSimpleName()));
+            NOTIFICATION_MANAGER.showWarnMessage(String.format("Please select a %s to delete", entityClass.getSimpleName()));
         }
     }
 
@@ -103,13 +107,13 @@ public abstract class AbstractCrudView<E extends Model> extends AbstractView<E> 
         logger.debug("Executing delete item");
 
         if (formPanel == null) {
-            showWarnMessage(String.format("%s is not editable", entityClass.getSimpleName()));
+            NOTIFICATION_MANAGER.showWarnMessage(String.format("%s is not editable", entityClass.getSimpleName()));
             return;
         }
 
         final E selected = (E) grid.asSingleSelect().getValue();
         if (selected == null) {
-            showWarnMessage(String.format("Please select a %s to delete", entityClass.getSimpleName()));
+            NOTIFICATION_MANAGER.showWarnMessage(String.format("Please select a %s to delete", entityClass.getSimpleName()));
             return;
         }
 
@@ -127,13 +131,13 @@ public abstract class AbstractCrudView<E extends Model> extends AbstractView<E> 
         service.save(entity);
         refresh();
 
-        showTrayMessage(String.format("%s with id: %s was saved", entityClass.getSimpleName(), entity.getId()));
+        NOTIFICATION_MANAGER.showTrayMessage(String.format("%s with id: %s was saved", entityClass.getSimpleName(), entity.getId()));
 
     }
 
     protected void showFrom() {
         if (formPanel != null) {
-            mainContent.setSplitPosition(75, Unit.PERCENTAGE);
+            mainContent.setSplitPosition(100.0f / (float) GOLDEN_RATIO, Unit.PERCENTAGE);
             mainContent.setFirstComponent(grid);
             mainContent.setSecondComponent(formPanel);
 
@@ -187,7 +191,22 @@ public abstract class AbstractCrudView<E extends Model> extends AbstractView<E> 
         return Optional.empty();
     }
 
+    protected final void setHidable(String columnName) {
+        final Grid.Column column = grid.getColumn(columnName);
+        if (column != null) {
+            //Allow user to hide this column
+            column.setHidable(true);
 
+        } else {
+            logger.error("No column with id:{} for grid in view of entity: {}", columnName, entityClass.getName());
+        }
+    }
 
+    public boolean isReadOnlyMode() {
+        return readOnlyMode;
+    }
 
+    public void setReadOnlyMode(boolean readOnlyMode) {
+        this.readOnlyMode = readOnlyMode;
+    }
 }
