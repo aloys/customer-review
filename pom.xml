@@ -11,7 +11,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>assignement.customer.review</groupId>
+    <groupId>customer.review</groupId>
     <artifactId>customer-review</artifactId>
     <version>1.0-SNAPSHOT</version>
 
