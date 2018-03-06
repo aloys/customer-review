@@ -68,7 +68,7 @@ public class ReviewView extends AbstractCrudView<Review> {
         minRating.setStyleName(ValoTheme.TEXTFIELD_SMALL);
         toolbar.addComponent(minRating);
 
-        final Label maxRatingLabel = new Label("Min Rating");
+        final Label maxRatingLabel = new Label("Max Rating");
         toolbar.addComponent(maxRatingLabel);
         maxRating.setStyleName(ValoTheme.TEXTFIELD_SMALL);
         toolbar.addComponent(maxRating);
