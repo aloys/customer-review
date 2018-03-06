@@ -142,13 +142,15 @@ public class ReviewView extends AbstractCrudView<Review> {
         final List<Review> reviews = reviewService.search(criteria);
         grid.setItems(reviews);
 
+        if(!reviews.isEmpty()){
+            NOTIFICATION_MANAGER.showTrayMessage("Found results: "+reviews.size());
+        }
+
     }
 
     @Override
     protected List<Component> createFormFields(){
         final List<Component> components = new ArrayList<>();
-
-
 
         final List<String> products = productService.findlAll()
                 .stream().map(user -> user.getName())

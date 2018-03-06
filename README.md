@@ -1,4 +1,5 @@
+#### Compiling
+**mvn clean install;**
 
 
-References:
-http://vaadin.github.io/spring-tutorial/
+#### Screenshots
