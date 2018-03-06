@@ -1,6 +1,7 @@
 package assignement.customer.review.framework;
 
-import assignement.customer.review.framework.view.DefaultView;
+import assignement.customer.review.framework.view.exception.ApplicationErrorHandler;
+import assignement.customer.review.framework.view.navigation.DefaultView;
 import com.vaadin.data.TreeData;
 import com.vaadin.data.provider.TreeDataProvider;
 import com.vaadin.navigator.View;
@@ -47,6 +48,9 @@ public class ApplicationUI extends UI implements ViewDisplay {
 
         springViewDisplay = new Panel();
         springViewDisplay.setSizeFull();
+
+        UI.getCurrent().setErrorHandler(ApplicationErrorHandler.getInstance());
+
     }
 
 

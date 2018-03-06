@@ -1,4 +1,4 @@
-package assignement.customer.review.framework.view;
+package assignement.customer.review.framework.view.navigation;
 
 import com.vaadin.navigator.View;
 import com.vaadin.ui.Label;

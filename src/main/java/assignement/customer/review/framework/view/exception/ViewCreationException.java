@@ -1,4 +1,4 @@
-package assignement.customer.review.framework.view;
+package assignement.customer.review.framework.view.exception;
 
 /**
  * Created by amazimpaka on 2018-03-03

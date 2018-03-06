@@ -1,4 +1,4 @@
-package assignement.customer.review.framework.view;
+package assignement.customer.review.framework.view.notification;
 
 import com.vaadin.server.Page;
 import com.vaadin.ui.Notification;

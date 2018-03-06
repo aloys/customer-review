@@ -1,4 +1,4 @@
-package assignement.customer.review.framework.view;
+package assignement.customer.review.framework.view.converter;
 
 import com.vaadin.data.Converter;
 import com.vaadin.data.converter.*;
