@@ -4,6 +4,7 @@ import com.vaadin.data.HasValue;
 import customer.review.application.configuration.ConfigurationService;
 import customer.review.application.product.ProductService;
 import customer.review.application.user.UserService;
+import customer.review.framework.util.ReflectionUtil;
 import customer.review.framework.view.AbstractCrudView;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.spring.annotation.SpringView;
@@ -25,6 +26,7 @@ public class ReviewView extends AbstractCrudView<Review> {
 
 
     public static final String VIEW_NAME = "Review" ;
+    public static final String DIGITS_REGEX = "[0-9]+";
 
     private  final TabSheet tabSheet = new TabSheet();
 
@@ -47,16 +49,38 @@ public class ReviewView extends AbstractCrudView<Review> {
 
     private final Slider ratingField = new Slider();
 
+    private final TextField minRating = new TextField();
+
+    private final TextField maxRating = new TextField();
+
+    private final ReviewCriteria criteria = new ReviewCriteria();
+
     @PostConstruct
     public void initialize(){
         setService(reviewService);
         setReadOnlyMode(true);
 
+        super.initialize();
+        toolbar.removeAllComponents();
+
+        final Label minRatingLabel = new Label("Min Rating");
+        toolbar.addComponent(minRatingLabel);
+        minRating.setStyleName(ValoTheme.TEXTFIELD_SMALL);
+        toolbar.addComponent(minRating);
+
+        final Label maxRatingLabel = new Label("Min Rating");
+        toolbar.addComponent(maxRatingLabel);
+        maxRating.setStyleName(ValoTheme.TEXTFIELD_SMALL);
+        toolbar.addComponent(maxRating);
+
+        final Button searchButton = createButton("Search", VaadinIcons.SEARCH, (event) -> search());
+        searchButton.setStyleName(ValoTheme.BUTTON_FRIENDLY);
+        toolbar.addComponent(searchButton);
+
         final Button createButton = createButton("Create a Review", VaadinIcons.ALARM, (event) -> create());
         createButton.setStyleName(ValoTheme.BUTTON_PRIMARY);
         toolbar.addComponent(createButton);
 
-       super.initialize();
 
         grid.setColumns("id","content","reviewedItem","reviewer","rating","createdDate","updatedDate");
 
@@ -92,6 +116,32 @@ public class ReviewView extends AbstractCrudView<Review> {
         }
         review.setUpdatedDate(new Date());
         super.save();
+    }
+
+
+
+    protected void search() {
+        final ReviewCriteria criteria = new ReviewCriteria();
+
+        if(minRating.getValue() == null || minRating.getValue().isEmpty()){
+            criteria.setMinimumRating(configurationService.getMinRating());
+        }else if(!minRating.getValue().matches(DIGITS_REGEX)){
+            throw new IllegalArgumentException("Invalid min rating: "+minRating.getValue());
+        }else {
+            criteria.setMinimumRating(Double.parseDouble(minRating.getValue()));
+        }
+
+        if(maxRating.getValue() == null || maxRating.getValue().isEmpty()){
+            criteria.setMaximumRating(configurationService.getMaxRating());
+        }else if(maxRating.getValue() == null || !maxRating.getValue().matches(DIGITS_REGEX)){
+            throw new IllegalArgumentException("Invalid max rating: "+maxRating.getValue());
+        }else {
+            criteria.setMaximumRating(Double.parseDouble(maxRating.getValue()));
+        }
+
+        final List<Review> reviews = reviewService.search(criteria);
+        grid.setItems(reviews);
+
     }
 
     @Override

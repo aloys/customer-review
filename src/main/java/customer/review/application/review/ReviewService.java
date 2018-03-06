@@ -7,10 +7,14 @@ import customer.review.application.product.ProductRepository;
 import customer.review.application.user.User;
 import customer.review.application.user.UserRepository;
 import customer.review.framework.service.AbstractService;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +35,9 @@ public class ReviewService extends AbstractService<Review> {
 
     @Autowired
     private ConfigurationService configurationService;
+
+    @Autowired
+    private EntityManagerFactory entityManagerFactory;
 
     @PostConstruct
     public void initialize(){
@@ -60,6 +67,15 @@ public class ReviewService extends AbstractService<Review> {
         productRepository.save(product);
 
         return saved;
+    }
+
+    public List<Review> search(ReviewCriteria criteria){
+        final EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Query query = entityManager.createQuery("SELECT r FROM Review r WHERE r.rating >= :minRating " +
+                " AND r.rating <= :maxRating");
+        query.setParameter("minRating", criteria.getMinimumRating());
+        query.setParameter("maxRating", criteria.getMaximumRating());
+        return query.getResultList();
     }
 
     private void validateRating(Review review) {
