@@ -78,6 +78,16 @@ public class ReviewService extends AbstractService<Review> {
         return query.getResultList();
     }
 
+    public long count(ReviewCriteria criteria){
+        final EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Query query = entityManager.createQuery("SELECT COUNT(r) FROM Review r WHERE r.rating >= :minRating " +
+                " AND r.rating <= :maxRating");
+        query.setParameter("minRating", criteria.getMinimumRating());
+        query.setParameter("maxRating", criteria.getMaximumRating());
+        return (Long)query.getSingleResult();
+    }
+
+
     private void validateRating(Review review) {
 
         final int minRating = configurationService.getMinRating();
