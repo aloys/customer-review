@@ -1,9 +1,14 @@
-#### Compiling
-mvn clean install;
 
 #### Main Logic
 See: customer.review.application.review.ReviewService class
 (https://github.com/aloys/customer-review/tree/master/src/main/java/customer/review/application/review)
+
+
+#### Execution
+
+- Compile project
+- Execute main class: customer.review.framework.MainApplication
+(https://github.com/aloys/customer-review/tree/master/src/main/java/customer/review/framework)
 
 
 #### Screenshots
