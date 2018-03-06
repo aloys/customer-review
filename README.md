@@ -1,5 +1,5 @@
 #### Compiling
-**mvn clean install;**
+mvn clean install;
 
 #### Main Logic
 See: customer.review.application.review.ReviewService class
