@@ -8,6 +8,13 @@
 
 See: (https://github.com/aloys/customer-review/blob/master/src/main/java/customer/review/application/review/ReviewService.java)
 
+#### Screenshots
+
+
+- Review Management:( https://github.com/aloys/customer-review/blob/master/doc/Screen_Shot_04_Reviews.png )
+- Users Master Data: (https://github.com/aloys/customer-review/blob/master/doc/Screen_Shot_03_Users.png)
+- Products Master Data: (https://github.com/aloys/customer-review/blob/master/doc/Screen_Shot_02_Products.png)
+- Configuration - rating range and restricted words: (https://github.com/aloys/customer-review/blob/master/doc/Screen_Shot_01_Configurations.png)
 
 ### Execution
 
@@ -23,21 +30,30 @@ http://localhost:8080/
 This will execute main class: customer.review.framework.MainApplication
 (https://github.com/aloys/customer-review/blob/master/src/main/java/customer/review/framework/MainApplication.java)
 
-That jar is an uber-jar including all dependencies with an embedded H2 database server, and tomcat web server.
+That jar is an uber-jar including all dependencies with an embedded **H2 database server**, and **Tomcat web server**.
 
-**Requirements**: Java Runtime Enviroment (JRE) version 8 or higher. (For compiling a JDK is required)
+The application will initialize _5 users_ and _5 products_ test data for convinience.
+
+**Requirements**: Java Runtime Enviroment (JRE) version 8 or higher.
 
 ### Compile
 
-- Compile project
-- Execute main class: customer.review.framework.MainApplication
-(https://github.com/aloys/customer-review/tree/master/src/main/java/customer/review/framework)
+- Run the following command:
+```console
+mvn clean install;
+```
+**Requirements**: Java Development Kit(JDK) version 8 or higher.
+
+### Framework
+
+| Library | Version | Usage |  
+|---------|---------|---------|
+| Vaadin | 8.1.7 | Web Application UI |
+| Spring | 4.3.13 | DI, Web application components, Service transaction |
+| Hibernate  | 5.0.12 | ORM / JPA |
+
+Built with spring-boot version 1.5.9
 
 
-#### Screenshots
 
 
-- Review:( https://github.com/aloys/customer-review/blob/master/doc/Screen_Shot_04_Reviews.png )
-- Users: (https://github.com/aloys/customer-review/blob/master/doc/Screen_Shot_03_Users.png)
-- Products: (https://github.com/aloys/customer-review/blob/master/doc/Screen_Shot_02_Products.png)
-- Configuration: (https://github.com/aloys/customer-review/blob/master/doc/Screen_Shot_01_Configurations.png)
