@@ -27,8 +27,7 @@ java -jar customer-review.jar
 - Open this URL in the browser:
 http://localhost:8080/
 
-This will execute main class: customer.review.framework.MainApplication
-(https://github.com/aloys/customer-review/blob/master/src/main/java/customer/review/framework/MainApplication.java)
+This will execute main class [*MainApplication*](https://github.com/aloys/customer-review/blob/master/src/main/java/customer/review/framework/MainApplication.java)
 
 That jar is an uber-jar including all dependencies with an embedded **H2 database server**, and **Tomcat web server**.
 
