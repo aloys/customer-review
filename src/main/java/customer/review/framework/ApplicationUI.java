@@ -71,7 +71,6 @@ public class ApplicationUI extends UI implements ViewDisplay {
         setContent(root);
 
         final CssLayout menuLayout = new CssLayout();
-        //menuLayout.setPrimaryStyleName(MENU_STYLE_NAME);
         menuLayout.addStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
         menuLayout.setSizeFull();
         menuLayout.addComponent(createMenuTree(VIEWS));
