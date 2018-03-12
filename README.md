@@ -24,14 +24,11 @@
 ```console
 java -jar customer-review.jar
 ```
-- Open this URL in the browser:
+- Open the following URL in a browser:
 http://localhost:8080/
 
-This will execute main class [*MainApplication*](https://github.com/aloys/customer-review/blob/master/src/main/java/customer/review/framework/MainApplication.java)
-
-That jar is an uber-jar including all dependencies with an embedded **H2 database server**, and **Tomcat web server**.
-
-The application will initialize _5 users_ and _5 products_ test data for convinience.
+This will execute the main class [*MainApplication*](https://github.com/aloys/customer-review/blob/master/src/main/java/customer/review/framework/MainApplication.java) in *customer-review.jar*. This an uber-jar including all dependencies including an embedded **H2 database server**, and **Tomcat web server**.
+For convinience, application will initialize _5 users_ and _5 products_ test data on startup.
 
 **Requirements**: Java Runtime Enviroment (JRE) version 8 or higher.
 
