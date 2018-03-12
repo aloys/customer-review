@@ -1,5 +1,5 @@
 
-### Main Logic
+## 1.Main Logic
 
 | Requirements | Implementation Method|
 |-------------|---------------------------------------|
@@ -8,7 +8,7 @@
 
 See: (https://github.com/aloys/customer-review/blob/master/src/main/java/customer/review/application/review/ReviewService.java)
 
-#### Screenshots
+## 2.Screenshots
 
 
 - Review Management:( https://github.com/aloys/customer-review/blob/master/doc/Screen_Shot_04_Reviews.png )
@@ -16,7 +16,7 @@ See: (https://github.com/aloys/customer-review/blob/master/src/main/java/custome
 - Products Master Data: (https://github.com/aloys/customer-review/blob/master/doc/Screen_Shot_02_Products.png)
 - Configuration - rating range and restricted words: (https://github.com/aloys/customer-review/blob/master/doc/Screen_Shot_01_Configurations.png)
 
-### Execution
+## 3.Execution
 
 - Download the **customer-review.jar** in *dist* directory
 - Run the following command:
@@ -36,7 +36,7 @@ The application will initialize _5 users_ and _5 products_ test data for convini
 
 **Requirements**: Java Runtime Enviroment (JRE) version 8 or higher.
 
-### Compile
+## 4.Compile
 
 - Run the following command:
 ```console
@@ -44,7 +44,7 @@ mvn clean install;
 ```
 **Requirements**: Java Development Kit(JDK) version 8 or higher.
 
-### Framework
+## 5.Framework
 
 | Library | Version | Usage |  
 |---------|---------|---------|
