@@ -12,9 +12,9 @@
 
 
 - [Review Management]( https://github.com/aloys/customer-review/blob/master/doc/Screen_Shot_04_Reviews.png )
-- [Users Master Data] (https://github.com/aloys/customer-review/blob/master/doc/Screen_Shot_03_Users.png)
-- [Products Master Data] (https://github.com/aloys/customer-review/blob/master/doc/Screen_Shot_02_Products.png)
-- [Configuration - _rating range and restricted words_] (https://github.com/aloys/customer-review/blob/master/doc/Screen_Shot_01_Configurations.png)
+- [Users Master Data](https://github.com/aloys/customer-review/blob/master/doc/Screen_Shot_03_Users.png)
+- [Products Master Data](https://github.com/aloys/customer-review/blob/master/doc/Screen_Shot_02_Products.png)
+- [Configuration - _rating range and restricted words_](https://github.com/aloys/customer-review/blob/master/doc/Screen_Shot_01_Configurations.png)
 
 ## 3. Execution
 
