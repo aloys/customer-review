@@ -5,6 +5,7 @@ package customer.review.application.review;
  */
 public class ReviewCriteria {
 
+    private String productName;
     private double minimumRating;
     private double maximumRating;
 
@@ -22,5 +23,13 @@ public class ReviewCriteria {
 
     public void setMaximumRating(double maximumRating) {
         this.maximumRating = maximumRating;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 }
