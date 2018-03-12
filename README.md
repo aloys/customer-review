@@ -1,14 +1,14 @@
 
-## 1.Main Logic
+## 1. Main Logic
 
 | Requirements | Implementation Method|
 |-------------|---------------------------------------|
 | Get a product’s total number of customer reviews <br /> whose ratings are within a given range (inclusive) | **count**  method in _ReviewService_ class|
 | Create a customer review after performing these checks:<br />  (1) Check if Customer’s comment does not contain any of these curse words<br />  (2) Check if the rating is not out of range, mimimum rating > 0| **save**  method in _ReviewService_ class|
 
-See: (https://github.com/aloys/customer-review/blob/master/src/main/java/customer/review/application/review/ReviewService.java)
+(https://github.com/aloys/customer-review/blob/master/src/main/java/customer/review/application/review/ReviewService.java)
 
-## 2.Screenshots
+## 2. Screenshots
 
 
 - Review Management:( https://github.com/aloys/customer-review/blob/master/doc/Screen_Shot_04_Reviews.png )
@@ -16,7 +16,7 @@ See: (https://github.com/aloys/customer-review/blob/master/src/main/java/custome
 - Products Master Data: (https://github.com/aloys/customer-review/blob/master/doc/Screen_Shot_02_Products.png)
 - Configuration - rating range and restricted words: (https://github.com/aloys/customer-review/blob/master/doc/Screen_Shot_01_Configurations.png)
 
-## 3.Execution
+## 3. Execution
 
 - Download the **customer-review.jar** in *dist* directory
 - Run the following command:
@@ -38,13 +38,13 @@ The application will initialize _5 users_ and _5 products_ test data for convini
 
 ## 4.Compile
 
-- Run the following command:
+Run the following command:
 ```console
 mvn clean install;
 ```
 **Requirements**: Java Development Kit(JDK) version 8 or higher.
 
-## 5.Framework
+## 5. Framework
 
 | Library | Version | Usage |  
 |---------|---------|---------|
