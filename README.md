@@ -6,7 +6,7 @@
 | Get a product’s total number of customer reviews <br /> whose ratings are within a given range (inclusive) | [**count**](https://github.com/aloys/customer-review/blob/master/src/main/java/customer/review/application/review/ReviewService.java#L81)  method in _ReviewService_ class|
 | Create a customer review after performing these checks:<br />  (1) Check if Customer’s comment does not contain any of these curse words<br />  (2) Check if the rating is not out of range, mimimum rating > 0| [**save**](https://github.com/aloys/customer-review/blob/master/src/main/java/customer/review/application/review/ReviewService.java#L50)  method in _ReviewService_ class|
 
-[For details see:](https://github.com/aloys/customer-review/blob/master/src/main/java/customer/review/application/review/ReviewService.java)
+[For details see **ReviewService**](https://github.com/aloys/customer-review/blob/master/src/main/java/customer/review/application/review/ReviewService.java)
 
 ## 2. Screenshots
 
